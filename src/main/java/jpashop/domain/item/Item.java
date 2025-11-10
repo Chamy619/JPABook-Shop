@@ -1,6 +1,7 @@
 package jpashop.domain.item;
 
 import jpashop.domain.Category;
+import jpashop.exception.NotEnoughStockException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,6 +22,18 @@ public abstract class Item {
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<Category>();
+
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStock(int quantity) {
+        int resetStock = this.stockQuantity - quantity;
+        if (resetStock < 0) {
+            throw new NotEnoughStockException("need more stock");
+        }
+        this.stockQuantity = resetStock;
+    }
 
     public Long getId() {
         return id;
