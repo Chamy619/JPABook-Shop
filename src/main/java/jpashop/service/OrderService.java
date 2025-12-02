@@ -4,6 +4,7 @@ import jpashop.domain.*;
 import jpashop.domain.item.Item;
 import jpashop.repository.MemberRepository;
 import jpashop.repository.OrderRepository;
+import jpashop.repository.custom.CustomOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ public class OrderService {
 
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    CustomOrderRepository customOrderRepository;
     @Autowired
     MemberRepository memberRepository;
     @Autowired
@@ -41,6 +44,7 @@ public class OrderService {
     }
 
     public List<Order> findOrders(OrderSearch orderSearch) {
-        return orderRepository.findAll(orderSearch.toSpecification());
+//        return orderRepository.findAll(orderSearch.toSpecification());
+        return customOrderRepository.search(orderSearch);
     }
 }
